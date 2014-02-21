@@ -47,6 +47,38 @@ import sys
 
 ###
 
+def get_count(filename):
+  f = open(filename, 'rU')
+  word_dic = {}
+
+  for line in f:
+    line = line.lower()
+    words = line.split()
+    for word in words:
+      if word in word_dic:
+        word_dic[word] += 1
+
+      else:
+        word_dic[word] = 1
+
+  return word_dic
+
+def print_words(filename):
+  words = get_count(filename)
+  sorted_words = sorted(words.items(), key=lambda x : x[0])
+    
+  for w,c in sorted_words:
+    print '%s %d' %(w,c)
+
+
+
+def print_top(filename):
+  words = get_count(filename)
+  sorted_words = sorted(words.items(), key= lambda x : x[1], reverse=True)
+
+  for w,c in sorted_words[0:20]:
+    print '%s %d' %(w,c)
+
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
