@@ -1,10 +1,10 @@
-#! /usr/bin/python
+#!/usr/bin/python
 
 
 def main():
-	crackle_pop1(1,100)
+	crackle_pop(1,100)
 
-def crackle_pop1(start,stop):
+def crackle_pop(start,stop):
 	""" Prints numbers from start to stop. Prints Crackle, Pop or CracklePop if number is divisible by 3, 5 or 3 and 5 respectively
 
 	start  number that begins the sequence
@@ -12,13 +12,14 @@ def crackle_pop1(start,stop):
 	stop   number that ends the sequence
 	"""
 
-	if(start%3==0 and start%5==0):
+
+	if(start%3==0 and start%5==0):			# number divisible by 3 and 5
 		print "CracklePop"
 
-	elif(start%3==0):
+	elif(start%3==0):						# number divisible by 3 but not 5
 		print "Crackle"
 
-	elif(start%5==0):
+	elif(start%5==0):						# number divisible by 5 but not 3
 		print "Pop"
 
 	else:
@@ -28,7 +29,7 @@ def crackle_pop1(start,stop):
 		return
 
 	else:
-		return crackle_pop1(start+1, stop)
+		return crackle_pop(start+1, stop)
 
 
 def crackle_pop2(start,stop):
