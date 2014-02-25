@@ -175,7 +175,13 @@ def solve_derivative(expr, n):
 			derv = derivative(term.strip())
 			list_derv.append(derv)
 
-		answer = '+'.join(list_derv)
+
+		if len(list_derv) == 1 and list_derv[0] == '0':
+			answer = list_derv[0]
+
+		else:
+			answer = [ drvt for drvt in list_derv if drvt != '0']
+			answer = '+'.join(answer)
 		return solve_derivative(answer,n-1)
 
 
