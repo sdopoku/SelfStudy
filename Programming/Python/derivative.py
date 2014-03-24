@@ -42,7 +42,7 @@ def interactive_mode():
 		Type quit to exit.
 	"""
 
-
+	print 'Type quit to exit'
 	expr = raw_input('Enter polynomial expression: ').strip()
 	while expr.lower() != 'quit':
 		n    = int(raw_input('Enter 1 or 2 for 1st and 2nd derivative respectively: ').strip())
@@ -84,8 +84,11 @@ def get_terms(expr):
 	"""
 
 	terms = expr.split('+')
-
-	return terms 
+	sign = '+'
+	if len(terms) == 1:
+		terms = terms[0].split('-')
+		sign = '-'
+	return terms, sign 
 
 
 def derivative(term):
@@ -168,7 +171,7 @@ def solve_derivative(expr, n):
 		return expr
 	else:
 
-		terms = get_terms(expr)
+		terms, sign = get_terms(expr)
 		list_derv =[]
 
 		for term in terms:
@@ -181,7 +184,7 @@ def solve_derivative(expr, n):
 
 		else:
 			answer = [ drvt for drvt in list_derv if drvt != '0']
-			answer = '+'.join(answer)
+			answer = sign.join(answer)
 		return solve_derivative(answer,n-1)
 
 
