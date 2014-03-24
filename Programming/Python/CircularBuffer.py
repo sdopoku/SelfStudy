@@ -9,23 +9,25 @@ class CircularBuffer:
 
 		"""
 
-		self._size = size
-		self._circ_buffer = ['']*self._size
+		self._n = 0
+		self._capacity = 1 
+		self._bufffer = ['']*self._size
 		self._cur = 0
-		self._head
+		self._last = 0
 
 
 	def get_size():
 		""" Returns the maximum size of the Circular Buffer"""
 		return self._size
 
-	def append(self, n):
+	def append(self, number):
 		""" Appends n items to the end of the Circular Buffer
 
 		n  number of items to add to end of buffer
 
 		"""
 
+		if 
 		while n > 0:
 			content = input()						# get contents from caller
 			self._cur %= self._size					# ensure index is not out of range 

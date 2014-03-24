@@ -18,6 +18,7 @@ n:				n-th derivative to calculate i.e 1 for 1st derivative, 2 for 2nd and so on
 """
 
 import sys
+import re
 
 def main():
 	# Get user expression input
@@ -45,8 +46,10 @@ def interactive_mode():
 	print 'Type quit to exit'
 	expr = raw_input('Enter polynomial expression: ').strip()
 	while expr.lower() != 'quit':
-		n    = int(raw_input('Enter 1 or 2 for 1st and 2nd derivative respectively: ').strip())
 		expr = check_expression(expr)
+		n    = raw_input('Enter whole number(n) for n-th derivative. Eg: 0, 1,2: ')
+		n    = int(n.strip())
+		n    = check_n(n)
 		expr = expr.strip()
 		answer = solve_derivative(expr,n)
 		print 'Derivative: %s'  %(answer)
@@ -62,7 +65,7 @@ def batch_mode():
 	print solve_derivative(expr,n)
 
 def check_expression(expr):
-	""" Returns TRUE of user input is valid expression and FALSE otherwise
+	""" Checks whether expression entered. Asks user to enter expr if not.
 
 	expr 	polynomial expression entered by user
 
@@ -76,19 +79,32 @@ def check_expression(expr):
 	return expr
 
 
+def check_n(n):
+	""" Checks whether n is a whole number. Asks user to re-enter number if not."""
+
+	#while type(n)  != int:
+	#	print 'INVALID ENTRY! You did not enter a number'
+	#	n = raw_input('Enter a whole number: ')
+
+	while n  < 0 :
+		print 'INVALID ENTRY! You did not enter a whole number'
+		n = int(raw_input('Enter a whole number: ').strip())
+
+	return n
+
+
+
 def get_terms(expr):
 	"""Return individual terms of polynomial expression
 
 	expr  	standard polynomial expression 
 
 	"""
+	expr = expr.replace(' ','')
+	p = re.compile(r'[-+]*\d+\w\^*\d*')
+	terms = p.findall(expr)
 
-	terms = expr.split('+')
-	sign = '+'
-	if len(terms) == 1:
-		terms = terms[0].split('-')
-		sign = '-'
-	return terms, sign 
+	return terms
 
 
 def derivative(term):
@@ -154,6 +170,19 @@ def get_coeff_var_power(term):
 
 	return coeff, variable, power
 
+def form_answer(answer):
+	""" Joins terms from answer list to form final expr.
+
+	answer  : list containing derivative terms
+	"""
+
+	final = answer[0]
+	for term in answer[1:]:
+		if term[0] == '-':
+			final += term
+		else:
+			final += '+%s' %(term)
+	return final 
 
 
 def solve_derivative(expr, n):
@@ -171,7 +200,7 @@ def solve_derivative(expr, n):
 		return expr
 	else:
 
-		terms, sign = get_terms(expr)
+		terms= get_terms(expr)
 		list_derv =[]
 
 		for term in terms:
@@ -184,7 +213,7 @@ def solve_derivative(expr, n):
 
 		else:
 			answer = [ drvt for drvt in list_derv if drvt != '0']
-			answer = sign.join(answer)
+			answer = form_answer(answer)
 		return solve_derivative(answer,n-1)
 
 
